@@ -53,6 +53,20 @@ namespace WebHost.AspId
             : base(store)
         {
             this.ClaimsIdentityFactory = new ClaimsFactory();
+            
+            // enable lockout (important, avoid brute force attacks)
+            this.UserLockoutEnabledByDefault = true;
+            this.MaxFailedAccessAttemptsBeforeLockout = 3;
+            this.DefaultAccountLockoutTimeSpan = TimeSpan.FromMinutes(5);
+            
+            this.PasswordValidator = new PasswordValidator
+            {
+                RequiredLength = 8,
+                RequireNonLetterOrDigit = false,
+                RequireDigit = true,
+                RequireLowercase = true,
+                RequireUppercase = true,
+            };
         }
     }
 
